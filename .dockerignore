@@ -1,0 +1,17 @@
+.git
+.gitignore
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.terraform
+terraform
+docs
+tests
+scripts
+gitops
+.github
+.continue
+GEMINI.md
+Jenkinsfile
+README.md
