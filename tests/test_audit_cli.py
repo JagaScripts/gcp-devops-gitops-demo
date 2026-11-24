@@ -134,8 +134,25 @@ def test_audit_healthcheck_passes_and_fails_cleanly(live_health_url: str) -> Non
 
 
 def test_cli_exit_codes_for_valid_and_invalid_configs(tmp_path: Path, live_health_url: str) -> None:
-    repo_tf = Path(__file__).resolve().parent.parent / "terraform"
-    assert main(["--terraform-dir", str(repo_tf), "--health-url", live_health_url]) == 0
+    repo_root = Path(__file__).resolve().parent.parent
+    repo_tf = repo_root / "terraform"
+    repo_gitops = repo_root / "gitops"
+    repo_workflows = repo_root / ".github" / "workflows"
+    assert (
+        main(
+            [
+                "--terraform-dir",
+                str(repo_tf),
+                "--yaml-dir",
+                str(repo_gitops),
+                "--yaml-dir",
+                str(repo_workflows),
+                "--health-url",
+                live_health_url,
+            ]
+        )
+        == 0
+    )
 
     (tmp_path / "bad.tf").write_text('variable "x" {}\n', encoding="utf-8")
     assert main(["--terraform-dir", str(tmp_path)]) != 0
